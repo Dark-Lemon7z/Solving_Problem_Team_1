@@ -3,4 +3,4 @@ project(term C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(term main.c "LIM.h")
+add_executable(term main.c main.h minseok_function.c minseok_header.h)
