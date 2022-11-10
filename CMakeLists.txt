@@ -3,4 +3,4 @@ project(term C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(term main.c)
+add_executable(term main.c "LIM.h")
