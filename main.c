@@ -7,4 +7,9 @@ int main()
 {
 	init();
 	read_from_file();
+	while(main_menu())
+	{
+		clear_(1);
+	}
+
 }

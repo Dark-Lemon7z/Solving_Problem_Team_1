@@ -7,5 +7,6 @@
 
 void init();
 void read_from_file();
-
+bool main_menu();
+void clear_(bool flag);
 #endif //TERM_MINSEOK_HEADER_H
