@@ -2,15 +2,16 @@
 
 void print_node(Node* cur)
 {
+	Node* temp = list_info.head;
 	if (cur == NULL)
 	{
 		printf("tag|   date   |  fee |         name        |age|         organization          |  job\n-----------------------------------------------------------------------------------------------------\n");
 		while (EOF != NULL)
 		{
-			printf("%2d |%d-%d-%2d |%5s |%20s |%d | %30s| %s\n", list_info.head->data.tag, list_info.head->data.year, list_info.head->data.month,
-				list_info.head->data.date, list_info.head->data.fee_paid ? "true" : "false",
-				list_info.head->data.name, list_info.head->data.age, list_info.head->data.org, list_info.head->data.job);
-			list_info.head = list_info.head->next;
+			printf("%2d |%d-%d-%2d |%5s |%20s |%d | %30s| %s\n", temp->data.tag, temp->data.year, temp->data.month,
+				temp->data.date, temp->data.fee_paid ? "true" : "false",
+				temp->data.name, temp->data.age, temp->data.org, temp->data.job);
+			temp = temp->next;
 		}
 	}
 	else
@@ -20,5 +21,4 @@ void print_node(Node* cur)
 			cur->data.date, cur->data.fee_paid ? "true" : "false",
 			cur->data.name, cur->data.age, cur->data.org, cur->data.job);
 	}
-	free(cur);
 }
