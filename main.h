@@ -2,7 +2,8 @@
 #define MAIN_H
 #include <stdbool.h>
 #include <stdio.h>
-#include "minseok_header.h"//본인 헤더 파일은 추가
+#include "minseok_header.h"
+#include "gyeongwon_header.h"//본인 헤더 파일은 추가
 /*
  * 이곳에 본인이 작성한 헤더를 연결시킬 것임
  * 여기다가 작성하지 말고 본인 헤더에다가 작성
