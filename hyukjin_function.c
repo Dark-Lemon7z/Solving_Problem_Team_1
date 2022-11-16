@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "hyukjin_header.h"
 
 void serarch_tag(struct data* head, int tag)
 {
