@@ -79,6 +79,7 @@ bool main_menu()
 	{
 		case 1:
 			//경원 파트
+			print_node(NULL);
 			return 1;
 		case 2:
 			//상균 파트

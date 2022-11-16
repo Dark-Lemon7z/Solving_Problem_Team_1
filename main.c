@@ -11,5 +11,4 @@ int main()
 	{
 		clear_(1);
 	}
-
 }
