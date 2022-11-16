@@ -6,7 +6,7 @@ void print_node(Node* cur)
 	if (cur == NULL)
 	{
 		printf("tag|   date   |  fee |         name        |age|         organization          |  job\n-----------------------------------------------------------------------------------------------------\n");
-		while (EOF != NULL)
+		while (temp != NULL)
 		{
 			printf("%2d |%d-%d-%2d |%5s |%20s |%d | %30s| %s\n", temp->data.tag, temp->data.year, temp->data.month,
 				temp->data.date, temp->data.fee_paid ? "true" : "false",

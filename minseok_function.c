@@ -66,7 +66,8 @@ void read_from_file()
 */
 bool main_menu()
 {
-	int sel;
+	int sel, input;
+	Node *temp;
 	puts("=======Registration_Management=======");
 	puts("1. Print data");
 	puts("2. Delete data");
@@ -83,12 +84,21 @@ bool main_menu()
 			return 1;
 		case 2:
 			//상균 파트
+			printf("input tag number >> ");
+			scanf("%d", &input);
+			delete(input);
 			return 1;
 		case 3:
 			//민준 파트
 			return 1;
 		case 4:
 			//혁진 파트
+			printf("input tag number >> ");
+			scanf("%d", &input);
+			if((temp = search_tag(input)) != NULL)
+				print_node(temp);
+			else
+				printf("==Not Found==\n");
 			return 1;
 		case 5:
 
