@@ -4,7 +4,6 @@ Node* serarch_tag(int tag)
 {
 	Node* ptr = list_info.head;
 
-	ptr = head;
 	while (ptr != NULL)
 	{
 		if (ptr->data.tag == tag)
@@ -14,4 +13,5 @@ Node* serarch_tag(int tag)
 		else
 			ptr = ptr->next;
 	}
+	return NULL;
 }

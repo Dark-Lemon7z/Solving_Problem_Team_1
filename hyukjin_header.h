@@ -2,4 +2,4 @@
 #include "main.h"
 #include<stdio.h>
 
-void serarch_tag(struct data* head, int tag);
+Node* (struct data* head, int tag);
