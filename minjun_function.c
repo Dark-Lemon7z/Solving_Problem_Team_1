@@ -6,7 +6,7 @@
  * Date        : 2022-09-06
  * argument    : int array
  * return      : void
- * description : This function can print Matrix's values.
+ * description : this function can insert node to the front or at the end.
 */
 void AddNode() {
 	int sel;
