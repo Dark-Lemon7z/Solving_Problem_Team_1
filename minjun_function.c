@@ -1,38 +1,52 @@
 #include "minjun_header.h"
 #include "main.h"
 
+/*
+ * Name        : AddNode
+ * Date        : 2022-09-06
+ * argument    : int array
+ * return      : void
+ * description : This function can print Matrix's values.
+*/
 void AddNode() {
-	int a;
+	int sel;
+	char fee;
 	Node *temp = malloc(sizeof(Node));
-
+	temp->next = NULL;
 	printf("tag : ");
 	scanf("%d", &temp->data.tag);
+	//tag verify
 	printf("year : ");
 	scanf("%d", &temp->data.year);
 	printf("month : ");
 	scanf("%d", &temp->data.month);
 	printf("date : ");
 	scanf("%d", &temp->data.date);
-	printf("fee_paid : ");
-	scanf("%s", temp->data.fee_paid);
+
+	printf("fee_paid(y/n) : ");
+	scanf(" %c", &fee);
+	temp->data.fee_paid = fee == 'y' ? true : false;
+
 	printf("name : ");
-	scanf("%s", temp->data.name);
+	get_string(temp->data.name);
 	printf("age : ");
-	scanf("%d", &temp->data.age);
+	scanf(" %d", &temp->data.age);
 	printf("org : ");
-	scanf("%s", temp->data.org);
+	get_string(temp->data.org);
 	printf("job : ");
-	scanf("%s", temp->data.job);
+	get_string(temp->data.job);
 
-	printf("Enter 1 to add to the front, Enter 0 to add at the end");
-	scanf("%d", &a);
+	printf("Enter 1 to add to the front, Enter any key to add at the end");
+	scanf("%d", &sel);
 
-	if (a == 1) {
+	if (sel)
+	{
 		temp->next = list_info.head;
 		list_info.head = temp;
 	}
-	else {
-		Node* cur;
+	else
+	{
+		Node *cur = list_info.head;
 
 		while (cur->next != NULL)
 		{
@@ -41,3 +55,5 @@ void AddNode() {
 		cur->next = temp;
 	}
 }
+
+bool verify_same(int tag);

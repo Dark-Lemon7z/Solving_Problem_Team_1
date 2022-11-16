@@ -8,7 +8,7 @@
  * description : This function can find the tag from txt file.
 */
 
-Node* serarch_tag(int tag)
+Node* search_tag(int tag)
 {
 	Node* ptr = list_info.head;
 

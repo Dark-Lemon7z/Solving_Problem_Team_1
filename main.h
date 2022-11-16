@@ -30,4 +30,5 @@ struct nodelist
 #include "minseok_header.h"
 #include "gyeongwon_header.h"
 #include "LIM_header.h"
+#include "minjun_header.h"
 #endif //MAIN_H

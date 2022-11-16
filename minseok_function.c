@@ -89,6 +89,7 @@ bool main_menu()
 			delete(input);
 			return 1;
 		case 3:
+			AddNode();
 			//민준 파트
 			return 1;
 		case 4:
@@ -101,7 +102,6 @@ bool main_menu()
 				printf("==Not Found==\n");
 			return 1;
 		case 5:
-
 			return 0;
 		default:
 			printf("Enter valid data.\n");
@@ -140,4 +140,30 @@ void clear_(bool flag)
 	}
 	system("clear");
 #endif
+}
+
+/*
+ * Name        : get_string
+ * Date        : 2022-10-09
+ * argument    : chat *str
+ * return      : void
+ * description : get string from user's input
+*/
+void get_string(char *str)
+{
+	int idx = 0;
+	char temp;
+	if((temp = getchar()) != '\n') // for \n dummy
+	{
+		str[idx++] = temp;
+	}
+	while((temp = getchar()) !='\n')
+	{
+		str[idx++] = temp;
+		if(idx == 19)
+		{
+			break;
+		}
+	}
+	str[idx] = '\0';
 }
