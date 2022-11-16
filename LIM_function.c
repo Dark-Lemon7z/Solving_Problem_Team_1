@@ -1,4 +1,4 @@
-#include "LIM.h"
+#include "LIM_header.h"
 
 void delete(int key) {
 	Node* ptr = list_info.head;
