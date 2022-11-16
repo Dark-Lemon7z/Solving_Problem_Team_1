@@ -1,15 +1,15 @@
 #include "hyukjin_header.h"
 
-void serarch_tag(struct data* head, int tag)
+Node* serarch_tag(int tag)
 {
-	struct data* ptr;
+	Node* ptr = list_info.head;
+
 	ptr = head;
 	while (ptr != NULL)
 	{
-		if (ptr->tag == tag)
+		if (ptr->data.tag == tag)
 		{
-			return &head;
-			break;
+			return ptr;
 		}
 		else
 			ptr = ptr->next;
