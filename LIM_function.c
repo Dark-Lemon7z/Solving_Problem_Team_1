@@ -11,6 +11,7 @@ void delete(int key) {
 	}
 	else
 	{
+		ptr = ptr->next;
 		while (ptr != NULL)
 		{
 			if (ptr->data.tag == key)
@@ -20,6 +21,7 @@ void delete(int key) {
 				return;
 			}
 			ptr = ptr->next;
+			prev = prev->next;
 		}
 	}
 	printf("==No data exist==");

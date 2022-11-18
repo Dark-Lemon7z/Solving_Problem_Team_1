@@ -3,6 +3,7 @@ void init()
 {
 	list_info.size = 0;
 	list_info.head = NULL;
+	clear_(0);
 }
 /*
  * Name        : read_from_file
