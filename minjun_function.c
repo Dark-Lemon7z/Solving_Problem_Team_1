@@ -11,7 +11,7 @@
 void AddNode() {
 	int sel;
 	char fee;
-	Node *temp = malloc(sizeof(Node));
+	Node* temp = malloc(sizeof(Node));
 	temp->next = NULL;
 	printf("tag : ");
 	scanf("%d", &temp->data.tag);
@@ -46,7 +46,7 @@ void AddNode() {
 	}
 	else
 	{
-		Node *cur = list_info.head;
+		Node* cur = list_info.head;
 
 		while (cur->next != NULL)
 		{
@@ -55,5 +55,45 @@ void AddNode() {
 		cur->next = temp;
 	}
 }
+
+void insertNode(int tag) {
+
+	Node* ptr, * old_ptr = NULL;
+	int newtag = tag, fail = -1;
+	Node* new_node = malloc(sizeof(Node));
+	new_node->data.tag = newtag;
+	new_node->next = NULL;
+
+	ptr = list_info.head;
+	while (ptr)
+	{
+		if (ptr->data.tag == newtag)//중복될 경우
+		{
+			printf("%d already exists \n", newtag);
+			break;
+		}
+		if (ptr->data.tag < newtag)  //pass
+		{
+			old_ptr = ptr;
+			ptr = ptr->next;
+		}
+		else
+		{
+			if (ptr == list_info.head) {  //첫번째 노드일경우
+				new_node->next = list_info.head;
+				list_info.head = new_node;
+				break;
+			}
+			old_ptr->next = new_node;//중간
+			new_node->next = ptr;
+			break;
+		}
+		if (ptr == NULL) {//끝
+			old_ptr->next = new_node;
+			break;
+		}
+	}
+}
+
 
 bool verify_same(int tag);
