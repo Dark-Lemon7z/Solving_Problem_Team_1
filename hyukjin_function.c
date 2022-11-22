@@ -23,3 +23,35 @@ Node* search_tag(int tag)
 	}
 	return NULL;
 }
+
+Node* search_name(char name)
+{
+	Node* ptr = list_info.head;
+
+	while (ptr != NULL)
+	{
+		if (ptr->data.name == name)
+		{
+			return ptr;
+		}
+		else
+			ptr = ptr->next;
+	}
+	return NULL;
+}
+
+Node* search_org(char org)
+{
+	Node* ptr = list_info.head;
+
+	while (ptr != NULL)
+	{
+		if (ptr->data.org == org)
+		{
+			return ptr;
+		}
+		else
+			ptr = ptr->next;
+	}
+	return NULL;
+}

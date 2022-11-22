@@ -3,3 +3,5 @@
 #include <stdio.h>
 
 Node* search_tag(int tag);
+Node* search_name(char name);
+Node* search_org(char org);
