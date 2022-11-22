@@ -21,12 +21,13 @@ void read_from_file()
 	int age;
 	char org[50];
 	char job[15];
-	Node *temp, *cur;
+	Node *temp, *cur, *prev;
 	FILE * input = fopen("registraion_data.txt", "r");
 	if(input == NULL)
 		printf("readfail");
 	while(EOF != fscanf(input, "%d/%d-%d-%d/%[^/]/%[^/]/%d/%[^/]/%s", &tag, &year, &month, &date, fee_paid, name, &age, org, job))
 	{
+		prev = list_info.head;
 		temp = (Node *) malloc(sizeof(Node));
 		temp->next = NULL;
 		temp->data.tag = tag;
@@ -38,8 +39,41 @@ void read_from_file()
 		temp->data.age = age;
 		strcpy(temp->data.org, org);
 		strcpy(temp->data.job, job);
-
-		//insert part
+		//insert part ** tag sorted
+		if(list_info.head == NULL)
+		{
+			list_info.head = temp;
+			continue;
+		}
+		else
+		{
+			for(cur = list_info.head; cur != NULL; cur = cur->next)
+			{
+				if(cur->data.tag > tag)
+				{
+					if(cur == list_info.head)
+					{
+						list_info.head = temp;
+						temp->next = cur;
+					}
+					else
+					{
+						prev->next = temp;
+						temp->next = cur;
+					}
+					break;
+				}
+				if(cur != list_info.head)
+					prev = prev->next;
+			}
+		}
+		if(cur == NULL)
+		{
+			prev->next = temp;
+			temp->next = NULL;
+		}
+		//insert part ** No sort
+		/*
 		if(list_info.head == NULL)
 		{
 			list_info.head = temp;
@@ -50,6 +84,7 @@ void read_from_file()
 			cur->next = temp;
 			cur = temp;
 		}
+		 */
 	}
 	fclose(input);
 	//input test//
