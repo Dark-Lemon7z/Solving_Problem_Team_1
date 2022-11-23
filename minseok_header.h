@@ -7,7 +7,7 @@
 
 void init();
 void read_from_file();
-Node * search_menu();
+void search_menu();
 bool main_menu();
 void clear_(bool flag);
 void get_string(char *str);

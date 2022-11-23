@@ -101,7 +101,7 @@ void read_from_file()
  * description : This function prints main menu.
 */
 
-Node * search_menu()
+void search_menu()
 {
 	Node *output;
 	clear_(0);
@@ -118,29 +118,29 @@ Node * search_menu()
 		case 1:
 			printf("Tag to find >> ");
 			scanf("%d", &tag_input);
-			output = search_tag(tag_input);
-			break;
+			print_node(search_tag(tag_input));
+			return ;
 		case 2:
 			printf("Name to find >> ");
 			get_string(ch_input);
-			output = search_name(ch_input);
+			search_name(ch_input);
 			break;
 		case 3:
 			printf("Organization to find >> ");
 			get_string(ch_input);
-			output = search_org(ch_input);
+			search_org(ch_input);
 			break;
 		default:
 			printf("input error");
 			output = NULL;
 			break;
 	}
-	return output;
 }
 
 bool main_menu()
 {
 	int sel, input;
+	char str[30];
 	Node *temp;
 	puts("=======Registration_Management=======");
 	puts("1. Print data");
@@ -159,8 +159,10 @@ bool main_menu()
 		case 2:
 			//상균 파트
 			printf("input tag number >> ");
-			scanf("%d", &input);
-			delete(input);
+			get_string(str);
+			delete_name(str);
+//			scanf("%d", &input);
+//			delete(input);
 			return 1;
 		case 3:
 			AddNode();
@@ -168,10 +170,11 @@ bool main_menu()
 			return 1;
 		case 4:
 			//혁진 파트
-			if((temp = search_menu()) != NULL)
-				print_node(temp);
-			else
-				printf("Not Found!!\n");
+			search_menu();
+//			if((temp = search_menu()) != NULL)
+//				print_node(temp);
+//			else
+//				printf("Not Found!!\n");
 			return 1;
 		case 5:
 			return 0;

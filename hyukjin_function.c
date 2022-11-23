@@ -32,7 +32,8 @@ Node* search_name(char *name)
 	{
 		if (strcmp(ptr->data.name, name) == 0)
 		{
-			return ptr;
+			print_node(ptr);
+			ptr = ptr->next;
 		}
 		else
 			ptr = ptr->next;
@@ -48,7 +49,8 @@ Node* search_org(char * org)
 	{
 		if (strcmp(ptr->data.org, org) == 0)
 		{
-			return ptr;
+			print_node(ptr);
+			ptr = ptr->next;
 		}
 		else
 			ptr = ptr->next;

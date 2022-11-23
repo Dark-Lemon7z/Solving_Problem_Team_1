@@ -6,4 +6,4 @@
 
 void delete(int key);
 void delete_name(char *key);
-void delete_org(char* key)
+void delete_org(char* key);
