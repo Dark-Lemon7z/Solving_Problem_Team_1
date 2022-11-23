@@ -2,6 +2,7 @@
 
 void print_node(Node* cur)
 {
+	int count;
 	Node* temp = list_info.head;
 	if (cur == NULL)
 	{
@@ -12,6 +13,11 @@ void print_node(Node* cur)
 				temp->data.date, temp->data.fee_paid ? "true" : "false",
 				temp->data.name, temp->data.age, temp->data.org, temp->data.job);
 			temp = temp->next;
+			count++;
+			if ((count + 1) % 5 == 0)
+			{
+				printf("\n-----------------------------------------------------------------------------------------------------\n");
+			}
 		}
 	}
 	else
