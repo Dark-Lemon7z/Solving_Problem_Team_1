@@ -1,21 +1,54 @@
 #include "LIM_header.h"
 
 void delete(int key) {
-	Node* ptr = list_info.head;
+	Node* ptr = list_info.head, * prev = list_info.head;
 
-	//첫 노드 지울 때
-	if (list_info.head->tag == key) {
+	if (list_info.head->data.tag == key)
+	{
 		list_info.head = list_info.head->next;
+		free(ptr);
 		return;
 	}
-	else if{
-		while (ptr->next != NULL)
+	else
+	{
+		ptr = ptr->next;
+		while (ptr != NULL)
 		{
-			if (ptr->next->tag == key) {
-				ptr->next = ptr->next->next;
+			if (ptr->data.tag == key)
+			{
+				prev->next = ptr->next;
+				free(ptr);
 				return;
 			}
 			ptr = ptr->next;
+			prev = prev->next;
 		}
 	}
+	printf("==No data exist==");
+}
+void delete_name(int key) {
+	Node* ptr = list_info.head, * prev = list_info.head;
+	while (ptr != NULL)
+	{
+		if (list_info.head->data.name == key)
+		{
+			list_info.head = list_info.head->next;
+			free(ptr);
+		}
+		else
+		{
+			ptr = ptr->next;
+			while (ptr != NULL)
+			{
+				if (ptr->data.name == key)
+				{
+					prev->next = ptr->next;
+					free(ptr);
+				}
+				ptr = ptr->next;
+				prev = prev->next;
+			}
+		}
+	}
+	printf("==No data exist==");
 }
