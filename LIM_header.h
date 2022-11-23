@@ -4,3 +4,4 @@
 #include <stdlib.h>
 
 void delete(int key);
+void delete_name(char key);
