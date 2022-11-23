@@ -2,7 +2,7 @@
 
 void print_node(Node* cur)
 {
-	int count;
+	int count = 0;
 	Node* temp = list_info.head;
 	if (cur == NULL)
 	{
