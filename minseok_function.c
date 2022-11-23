@@ -100,6 +100,44 @@ void read_from_file()
  * return      : bool
  * description : This function prints main menu.
 */
+
+Node * search_menu()
+{
+	Node *output;
+	clear_(0);
+	int sel, tag_input;
+	char ch_input[60];
+	puts("=======Select_Search Option=======");
+	puts("1. Tag");
+	puts("2. Name");
+	puts("3. Organization");
+	printf("input >> ");
+	scanf("%d", &sel);
+	switch(sel)
+	{
+		case 1:
+			printf("Tag to find >> ");
+			scanf("%d", &tag_input);
+			output = search_tag(tag_input);
+			break;
+		case 2:
+			printf("Name to find >> ");
+			get_string(ch_input);
+			output = search_name(ch_input);
+			break;
+		case 3:
+			printf("Organization to find >> ");
+			get_string(ch_input);
+			output = search_org(ch_input);
+			break;
+		default:
+			printf("input error");
+			output = NULL;
+			break;
+	}
+	return output;
+}
+
 bool main_menu()
 {
 	int sel, input;
@@ -130,12 +168,10 @@ bool main_menu()
 			return 1;
 		case 4:
 			//혁진 파트
-			printf("input tag number >> ");
-			scanf("%d", &input);
-			if((temp = search_tag(input)) != NULL)
+			if((temp = search_menu()) != NULL)
 				print_node(temp);
 			else
-				printf("==Not Found==\n");
+				printf("Not Found!!\n");
 			return 1;
 		case 5:
 			return 0;

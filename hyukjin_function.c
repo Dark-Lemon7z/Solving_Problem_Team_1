@@ -24,13 +24,13 @@ Node* search_tag(int tag)
 	return NULL;
 }
 
-Node* search_name(char name)
+Node* search_name(char *name)
 {
 	Node* ptr = list_info.head;
 
 	while (ptr != NULL)
 	{
-		if (ptr->data.name == name)
+		if (strcmp(ptr->data.name, name) == 0)
 		{
 			return ptr;
 		}
@@ -40,13 +40,13 @@ Node* search_name(char name)
 	return NULL;
 }
 
-Node* search_org(char org)
+Node* search_org(char * org)
 {
 	Node* ptr = list_info.head;
 
 	while (ptr != NULL)
 	{
-		if (ptr->data.org == org)
+		if (strcmp(ptr->data.org, org) == 0)
 		{
 			return ptr;
 		}
