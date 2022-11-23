@@ -1,6 +1,7 @@
 #include "LIM_header.h"
 
 void delete(int key) {
+
 	Node* ptr = list_info.head, * prev = list_info.head;
 
 	if (list_info.head->data.tag == key)
@@ -25,8 +26,10 @@ void delete(int key) {
 		}
 	}
 	printf("==No data exist==");
+
 }
-void delete_name(int key) {
+
+void delete_name(char key) {
 	Node* ptr = list_info.head, * prev = list_info.head;
 	while (ptr != NULL)
 	{
@@ -51,4 +54,6 @@ void delete_name(int key) {
 		}
 	}
 	printf("==No data exist==");
+
+
 }
