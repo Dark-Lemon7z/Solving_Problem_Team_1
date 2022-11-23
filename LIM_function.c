@@ -29,24 +29,55 @@ void delete(int key) {
 
 }
 
-void delete_name(char key) {
+void delete_name(char *key) {
 	Node* ptr = list_info.head, * prev = list_info.head;
+	temp = ptr;
 	while (ptr != NULL)
 	{
-		if (list_info.head->data.name == key)
+		if (strcmp(list_info.head->data.name,key) == 0)
 		{
 			list_info.head = list_info.head->next;
-			free(ptr);
+			free(temp);
 		}
 		else
 		{
 			ptr = ptr->next;
 			while (ptr != NULL)
 			{
-				if (ptr->data.name == key)
+				if (strcmp(ptr->data.name,key) == 0)
 				{
 					prev->next = ptr->next;
-					free(ptr);
+					free(temp);
+				}
+				ptr = ptr->next;
+				prev = prev->next;
+			}
+		}
+	}
+	printf("==No data exist==");
+
+
+}
+
+void delete_org(char* key) {
+	Node* ptr = list_info.head, * prev = list_info.head;
+	temp = ptr;
+	while (ptr != NULL)
+	{
+		if (strcmp(list_info.head->data.org, key) == 0)
+		{
+			list_info.head = list_info.head->next;
+			free(temp);
+		}
+		else
+		{
+			ptr = ptr->next;
+			while (ptr != NULL)
+			{
+				if (strcmp(ptr->data.org, key) == 0)
+				{
+					prev->next = ptr->next;
+					free(temp);
 				}
 				ptr = ptr->next;
 				prev = prev->next;
