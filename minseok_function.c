@@ -3,6 +3,7 @@ void init()
 {
 	list_info.size = 0;
 	list_info.head = NULL;
+	clear_(0);
 }
 /*
  * Name        : read_from_file
@@ -20,12 +21,13 @@ void read_from_file()
 	int age;
 	char org[50];
 	char job[15];
-	Node *temp, *cur;
+	Node *temp, *cur, *prev;
 	FILE * input = fopen("registraion_data.txt", "r");
 	if(input == NULL)
 		printf("readfail");
 	while(EOF != fscanf(input, "%d/%d-%d-%d/%[^/]/%[^/]/%d/%[^/]/%s", &tag, &year, &month, &date, fee_paid, name, &age, org, job))
 	{
+		prev = list_info.head;
 		temp = (Node *) malloc(sizeof(Node));
 		temp->next = NULL;
 		temp->data.tag = tag;
@@ -37,8 +39,41 @@ void read_from_file()
 		temp->data.age = age;
 		strcpy(temp->data.org, org);
 		strcpy(temp->data.job, job);
-
-		//insert part
+		//insert part ** tag sorted
+		if(list_info.head == NULL)
+		{
+			list_info.head = temp;
+			continue;
+		}
+		else
+		{
+			for(cur = list_info.head; cur != NULL; cur = cur->next)
+			{
+				if(cur->data.tag > tag)
+				{
+					if(cur == list_info.head)
+					{
+						list_info.head = temp;
+						temp->next = cur;
+					}
+					else
+					{
+						prev->next = temp;
+						temp->next = cur;
+					}
+					break;
+				}
+				if(cur != list_info.head)
+					prev = prev->next;
+			}
+		}
+		if(cur == NULL)
+		{
+			prev->next = temp;
+			temp->next = NULL;
+		}
+		//insert part ** No sort
+		/*
 		if(list_info.head == NULL)
 		{
 			list_info.head = temp;
@@ -49,6 +84,7 @@ void read_from_file()
 			cur->next = temp;
 			cur = temp;
 		}
+		 */
 	}
 	fclose(input);
 	//input test//
@@ -64,9 +100,48 @@ void read_from_file()
  * return      : bool
  * description : This function prints main menu.
 */
+
+Node * search_menu()
+{
+	Node *output;
+	clear_(0);
+	int sel, tag_input;
+	char ch_input[60];
+	puts("=======Select_Search Option=======");
+	puts("1. Tag");
+	puts("2. Name");
+	puts("3. Organization");
+	printf("input >> ");
+	scanf("%d", &sel);
+	switch(sel)
+	{
+		case 1:
+			printf("Tag to find >> ");
+			scanf("%d", &tag_input);
+			output = search_tag(tag_input);
+			break;
+		case 2:
+			printf("Name to find >> ");
+			get_string(ch_input);
+			output = search_name(ch_input);
+			break;
+		case 3:
+			printf("Organization to find >> ");
+			get_string(ch_input);
+			output = search_org(ch_input);
+			break;
+		default:
+			printf("input error");
+			output = NULL;
+			break;
+	}
+	return output;
+}
+
 bool main_menu()
 {
-	int sel;
+	int sel, input;
+	Node *temp;
 	puts("=======Registration_Management=======");
 	puts("1. Print data");
 	puts("2. Delete data");
@@ -83,15 +158,22 @@ bool main_menu()
 			return 1;
 		case 2:
 			//상균 파트
+			printf("input tag number >> ");
+			scanf("%d", &input);
+			delete(input);
 			return 1;
 		case 3:
+			AddNode();
 			//민준 파트
 			return 1;
 		case 4:
 			//혁진 파트
+			if((temp = search_menu()) != NULL)
+				print_node(temp);
+			else
+				printf("Not Found!!\n");
 			return 1;
 		case 5:
-
 			return 0;
 		default:
 			printf("Enter valid data.\n");
@@ -130,4 +212,30 @@ void clear_(bool flag)
 	}
 	system("clear");
 #endif
+}
+
+/*
+ * Name        : get_string
+ * Date        : 2022-10-09
+ * argument    : chat *str
+ * return      : void
+ * description : get string from user's input
+*/
+void get_string(char *str)
+{
+	int idx = 0;
+	char temp;
+	if((temp = getchar()) != '\n') // for \n dummy
+	{
+		str[idx++] = temp;
+	}
+	while((temp = getchar()) !='\n')
+	{
+		str[idx++] = temp;
+		if(idx == 19)
+		{
+			break;
+		}
+	}
+	str[idx] = '\0';
 }

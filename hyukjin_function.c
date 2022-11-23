@@ -1,17 +1,57 @@
 #include "hyukjin_header.h"
 
-void serarch_tag(struct data* head, int tag)
+/*
+ * Name        : search_tag
+ * Date        : 2022-11-14
+ * argument    : int tag
+ * return      : node *
+ * description : This function can find the tag from txt file.
+*/
+
+Node* search_tag(int tag)
 {
-	struct data* ptr;
-	ptr = head;
+	Node* ptr = list_info.head;
+
 	while (ptr != NULL)
 	{
-		if (ptr->tag == tag)
+		if (ptr->data.tag == tag)
 		{
-			return &head;
-			break;
+			return ptr;
 		}
 		else
 			ptr = ptr->next;
 	}
+	return NULL;
+}
+
+Node* search_name(char *name)
+{
+	Node* ptr = list_info.head;
+
+	while (ptr != NULL)
+	{
+		if (strcmp(ptr->data.name, name) == 0)
+		{
+			return ptr;
+		}
+		else
+			ptr = ptr->next;
+	}
+	return NULL;
+}
+
+Node* search_org(char * org)
+{
+	Node* ptr = list_info.head;
+
+	while (ptr != NULL)
+	{
+		if (strcmp(ptr->data.org, org) == 0)
+		{
+			return ptr;
+		}
+		else
+			ptr = ptr->next;
+	}
+	return NULL;
 }
