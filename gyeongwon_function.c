@@ -3,20 +3,23 @@
 void print_node(Node* cur)
 {
 	int count = 0;
+	int reset;
+	char anythings[5];
 	Node* temp = list_info.head;
 	if (cur == NULL)
 	{
-		printf("tag|   date   |  fee |         name        |age|         organization          |  job\n-----------------------------------------------------------------------------------------------------\n");
 		while (temp != NULL)
 		{
-			printf("%2d |%d-%d-%2d |%5s |%20s |%d | %30s| %s\n", temp->data.tag, temp->data.year, temp->data.month,
+			printf("tag : %d\ndate : %d-%d-%d\nfee : %s\nname : %s\nage : %d\norg :  %s\njob :  %s\n--------------------------\n", temp->data.tag, temp->data.year, temp->data.month,
 				temp->data.date, temp->data.fee_paid ? "true" : "false",
 				temp->data.name, temp->data.age, temp->data.org, temp->data.job);
 			temp = temp->next;
 			count++;
-			if ((count + 1) % 5 == 0)
+			if (count % 5 == 0)
 			{
-				printf("\n-----------------------------------------------------------------------------------------------------\n");
+				printf("==========%d of %d==========\n=====Enter to continue====", count-4, count);
+				gets_s(anythings);
+				system("cls");
 			}
 		}
 	}
