@@ -1,5 +1,13 @@
 #include "LIM_header.h"
 
+/*
+ * Name        : delete
+ * Date        : 2022-11-24
+ * argument    : int tag, char*key
+ * return      : void
+ * description : This function can delete data
+*/
+
 void delete(int key) {
 
 	Node* ptr = list_info.head, * prev = list_info.head;
