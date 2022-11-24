@@ -1,4 +1,12 @@
 #include "minseok_header.h"
+/*
+ * Name        : init
+ * Date        : 2022-11-07
+ * author      : MinSeok Choi
+ * argument    : none
+ * return      : void
+ * description : initializing program
+*/
 void init()
 {
 	list_info.size = 0;
@@ -8,7 +16,8 @@ void init()
 /*
  * Name        : read_from_file
  * Date        : 2022-11-10
- * argument    : none.
+ * author      : MinSeok Choi
+ * argument    : none
  * return      : void
  * description : This function can read data from txt file
 */
@@ -27,6 +36,7 @@ void read_from_file()
 		printf("readfail");
 	while(EOF != fscanf(input, "%d/%d-%d-%d/%[^/]/%[^/]/%d/%[^/]/%s", &tag, &year, &month, &date, fee_paid, name, &age, org, job))
 	{
+		list_info.size++;
 		prev = list_info.head;
 		temp = (Node *) malloc(sizeof(Node));
 		temp->next = NULL;
@@ -35,6 +45,7 @@ void read_from_file()
 		temp->data.month = month;
 		temp->data.date = date;
 		temp->data.fee_paid = (strcmp(fee_paid, "yes") ? false : true);
+		temp->checked = false;
 		strcpy(temp->data.name, name);
 		temp->data.age = age;
 		strcpy(temp->data.org, org);
@@ -72,39 +83,185 @@ void read_from_file()
 			prev->next = temp;
 			temp->next = NULL;
 		}
-		//insert part ** No sort
-		/*
-		if(list_info.head == NULL)
-		{
-			list_info.head = temp;
-			cur = temp;
-		}
-		else
-		{
-			cur->next = temp;
-			cur = temp;
-		}
-		 */
 	}
 	fclose(input);
-	//input test//
-//	for(cur = list_info.head; cur != NULL; cur = cur->next)
-//	{
-//		printf("%d %s %s\n", cur->data.tag, cur->data.org, cur->data.name);
-//	}
 }
 /*
- * Name        : main_menu
- * Date        : 2022-11-14
- * argument    : none.
- * return      : bool
- * description : This function prints main menu.
+ * Name        : delete_node_arr_list
+ * Date        : 2022-11-24
+ * author      : MinSeok Choi
+ * argument    : Node_arr *
+ * return      : void
+ * description : delete linked-list
 */
+void delete_node_arr_list(Node_arr * head)
+{
+	if(head == NULL)
+		return;
+	Node_arr *prev = NULL, *cur;
+	for(cur = head; cur != NULL; cur = cur->next)
+	{
+		if(prev != NULL)
+			free(prev);
+		prev = cur;
+	}
+	free(prev);
+}
+/*
+ * Name        : delete_menu
+ * Date        : 2022-11-24
+ * author      : MinSeok Choi
+ * argument    : none
+ * return      : void
+ * description : print delete menu
+*/
+void delete_menu()
+{
+	clear_(0);
+	bool flag;
+	int sel, tag_input;
+	char ch_input[60];
+	puts("=======Select_Delete Option=======");
+	puts("1. Tag");
+	puts("2. Name");
+	puts("3. Organization");
+	printf("input >> ");
+	scanf("%d", &sel);
+	switch(sel)
+	{
+		case 1:
+			printf("Tag to delete >> ");
+			scanf("%d", &tag_input);
+			flag = delete(tag_input);
+			break;
+		case 2:
+			printf("Name to delete >> ");
+			get_string(ch_input);
+			flag = delete_name(ch_input);
+			break;
+		case 3:
+			printf("Organization to delete >> ");
+			get_string(ch_input);
+			flag = delete_org(ch_input);
+			break;
+		default:
+			printf("Input Error\n");
+			return;
+	}
+	if(!flag)
+	{
+		printf("No data exist.\n");
+	}
+	else
+	{
+		printf("Deleted.\n");
+	}
+}
+/*
+ * Name        : output_menu
+ * Date        : 2022-11-24
+ * author      : MinSeok Choi
+ * argument    : none
+ * return      : void
+ * description : print output menu
+*/
+void output_menu()
+{
+	clear_(0);
+	Node_arr *rst = NULL, *cur;
+	int sel, tag_input;
+	char ch_input[60];
+	while(1)
+	{
+		puts("=======Select_Output Option=======");
+		puts("1. Tag");
+		puts("2. Name (print all of same name)");
+		puts("3. Organization (print all of same org.)");
+		puts("4. Make output");
+		puts("**If nodes are duplicated, print only one time**");
+		printf("input >> ");
+		scanf("%d", &sel);
+		switch(sel)
+		{
+			case 1:
+				printf("Tag to save >> ");
+				scanf("%d", &tag_input);
+				rst = search_tag(tag_input);
+				break;
+			case 2:
+				printf("Name to save >> ");
+				get_string(ch_input);
+				rst = search_name(ch_input);
+				break;
+			case 3:
+				printf("Organization to save >> ");
+				get_string(ch_input);
+				rst = search_org(ch_input);
+				break;
+			case 4:
+				write_to_file();
+				puts("Fine.");
+				return;
+			default:
+				printf("Input Error\n");
+				break;
+		}
+		for(cur = rst; cur != NULL; cur = cur->next)
+		{
+			cur->node_addr->checked = true;
+		}
+		if(rst == NULL)
+			puts("No Data");
+		else
+			delete_node_arr_list(rst);
+		clear_(1);
+	}
 
+}
+/*
+ * Name        : write_to_file
+ * Date        : 2022-11-24
+ * author      : MinSeok Choi
+ * argument    : none
+ * return      : void
+ * description : make output file
+*/
+void write_to_file()
+{
+	int idx = 0;
+	char filename[54];
+	FILE *output;
+	Node *cur;
+	printf("File name(up to 50) : ");
+	get_string(filename);
+	strcat(filename, ".txt");
+	output = fopen(filename, "w");
+	for(cur = list_info.head; cur != NULL; cur = cur ->next)
+	{
+		if(!cur->checked)
+			continue;
+		fprintf(output, "------------- #%d -------------\n", idx++);
+		fprintf(output, "tag \t: %d\ndate\t: %d-%d-%d\nfee \t: %s\nname\t: %s\nage \t: %d\norg \t: %s\njob \t: %s\n", cur->data.tag,
+			   cur->data.year, cur->data.month,
+			   cur->data.date, cur->data.fee_paid ? "true" : "false",
+			   cur->data.name, cur->data.age, cur->data.org, cur->data.job);
+		cur->checked = false;
+	}
+	fclose(output);
+}
+/*
+ * Name        : search_menu
+ * Date        : 2022-11-24
+ * author      : MinSeok Choi
+ * argument    : none
+ * return      : void
+ * description : print menu for search
+*/
 void search_menu()
 {
-	Node *output;
 	clear_(0);
+	Node_arr * rst, *cur;
+	bool flag = false;
 	int sel, tag_input;
 	char ch_input[60];
 	puts("=======Select_Search Option=======");
@@ -118,25 +275,43 @@ void search_menu()
 		case 1:
 			printf("Tag to find >> ");
 			scanf("%d", &tag_input);
-			print_node(search_tag(tag_input));
-			return ;
+			rst = search_tag(tag_input);
+			break;
 		case 2:
 			printf("Name to find >> ");
 			get_string(ch_input);
-			search_name(ch_input);
+			rst = search_name(ch_input);
 			break;
 		case 3:
 			printf("Organization to find >> ");
 			get_string(ch_input);
-			search_org(ch_input);
+			rst = search_org(ch_input);
 			break;
 		default:
-			printf("input error");
-			output = NULL;
-			break;
+			printf("Input Error\n");
+			return;
 	}
+	for(cur = rst; cur != NULL; cur = cur->next)
+	{
+		flag = true;
+		print_node(cur->node_addr);
+	}
+	if(!flag)
+	{
+		printf("Not Found!\n");
+	}
+	else
+		delete_node_arr_list(rst);
 }
 
+/*
+ * Name        : main_menu
+ * Date        : 2022-11-24
+ * author      : MinSeok Choi
+ * argument    : none.
+ * return      : bool
+ * description : This function prints main menu.
+*/
 bool main_menu()
 {
 	int sel, input;
@@ -147,7 +322,8 @@ bool main_menu()
 	puts("2. Delete data");
 	puts("3. Insert data");
 	puts("4. Search data");
-	puts("5. Exit");
+	puts("5. Make output file (txt)");
+	puts("6. Exit");
 	printf("input >> ");
 	scanf("%d", &sel);
 	switch(sel)
@@ -158,11 +334,7 @@ bool main_menu()
 			return 1;
 		case 2:
 			//상균 파트
-			printf("input tag number >> ");
-			get_string(str);
-			delete_name(str);
-//			scanf("%d", &input);
-//			delete(input);
+			delete_menu();
 			return 1;
 		case 3:
 			AddNode();
@@ -171,23 +343,21 @@ bool main_menu()
 		case 4:
 			//혁진 파트
 			search_menu();
-//			if((temp = search_menu()) != NULL)
-//				print_node(temp);
-//			else
-//				printf("Not Found!!\n");
 			return 1;
 		case 5:
+			output_menu();
+			return 1;
+		case 6:
 			return 0;
 		default:
 			printf("Enter valid data.\n");
 			return 1;
 	}
-
 }
-
 /*
  * Name        : clear_
  * Date        : 2022-10-09
+ * author      : MinSeok Choi
  * argument    : bool
  * return      : void
  * description : clear terminal's outputs
@@ -216,10 +386,10 @@ void clear_(bool flag)
 	system("clear");
 #endif
 }
-
 /*
  * Name        : get_string
  * Date        : 2022-10-09
+ * author      : MinSeok Choi
  * argument    : chat *str
  * return      : void
  * description : get string from user's input

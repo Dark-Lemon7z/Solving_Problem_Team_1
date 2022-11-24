@@ -4,6 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-void delete(int key);
-void delete_name(char *key);
-void delete_org(char* key);
+bool delete(int key);
+bool delete_name(char *key);
+bool delete_org(char* key);

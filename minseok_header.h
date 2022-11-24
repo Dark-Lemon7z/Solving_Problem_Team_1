@@ -7,7 +7,11 @@
 
 void init();
 void read_from_file();
+void delete_node_arr_list(Node_arr *head);
 void search_menu();
+void delete_menu();
+void output_menu();
+void write_to_file();
 bool main_menu();
 void clear_(bool flag);
 void get_string(char *str);

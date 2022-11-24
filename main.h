@@ -17,8 +17,15 @@ typedef struct data
 typedef struct node
 {
 	Data data;
+	bool checked;
 	struct node * next;
 }Node;
+
+typedef struct node_array
+{
+	Node * node_addr;
+	struct node_array * next;
+}Node_arr;
 
 struct nodelist
 {

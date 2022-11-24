@@ -1,14 +1,13 @@
 #include "LIM_header.h"
-
 /*
  * Name        : delete
  * Date        : 2022-11-24
- * argument    : int tag, char*key
- * return      : void
- * description : This function can delete data
+ * author      : SangGyune Lim
+ * argument    : int
+ * return      : bool
+ * description : This function can delete node
 */
-
-void delete(int key) {
+bool delete(int key) {
 
 	Node* ptr = list_info.head, * prev = list_info.head;
 
@@ -16,7 +15,8 @@ void delete(int key) {
 	{
 		list_info.head = list_info.head->next;
 		free(ptr);
-		return;
+		list_info.size--;
+		return true;
 	}
 	else
 	{
@@ -27,64 +27,96 @@ void delete(int key) {
 			{
 				prev->next = ptr->next;
 				free(ptr);
-				return;
+				list_info.size--;
+				return true;
 			}
 			ptr = ptr->next;
 			prev = prev->next;
 		}
 	}
-	printf("==No data exist==");
-
+	return false;
 }
-
-void delete_name(char *key) {
+/*
+ * Name        : delete_name
+ * Date        : 2022-11-24
+ * author      : SangGyune Lim
+ * argument    : char *
+ * return      : bool
+ * description : This function can delete node by name
+*/
+bool delete_name(char *key)
+{
+	bool flag = 0;
 	Node* ptr = list_info.head, * prev = list_info.head, *temp;
-	if (strcmp(list_info.head->data.name,key) == 0)
+	while (ptr != NULL)
 	{
-		temp = list_info.head;
-		list_info.head = list_info.head->next;
-		free(temp);
-	}
-	else
-	{
-		ptr = ptr->next;
-		while (ptr != NULL)
+		if (strcmp(ptr->data.name,key) == 0)
 		{
-			if (strcmp(ptr->data.name,key) == 0)
+			if(ptr == list_info.head)
+			{
+				temp = list_info.head;
+				ptr = list_info.head->next;
+				list_info.head = list_info.head->next;
+				free(temp);
+				flag = true;
+				list_info.size--;
+			}
+			else
 			{
 				prev->next = ptr->next;
 				temp = ptr;
+				ptr = ptr->next;
 				free(temp);
+				flag = true;
+				list_info.size--;
 			}
-			ptr = ptr->next;
-			prev = prev->next;
 		}
+		if(ptr != list_info.head)
+			prev = prev->next;
+		ptr = ptr->next;
 	}
-}
 
-void delete_org(char* key) {
+	return flag;
+}
+/*
+ * Name        : delete_org
+ * Date        : 2022-11-24
+ * author      : SangGyune Lim
+ * argument    : char*
+ * return      : bool
+ * description : This function can delete node by organization
+*/
+bool delete_org(char* key)
+{
+	bool flag = 0;
 	Node* ptr = list_info.head, * prev = list_info.head, *temp;
-	temp = ptr;
 	while (ptr != NULL)
 	{
-		if (strcmp(list_info.head->data.org, key) == 0)
+		if (strcmp(ptr->data.org,key) == 0)
 		{
-			list_info.head = list_info.head->next;
-			free(temp);
-		}
-		else
-		{
-			ptr = ptr->next;
-			while (ptr != NULL)
+			if(ptr == list_info.head)
 			{
-				if (strcmp(ptr->data.org, key) == 0)
-				{
-					prev->next = ptr->next;
-					free(temp);
-				}
+				temp = list_info.head;
+				ptr = list_info.head->next;
+				list_info.head = list_info.head->next;
+				free(temp);
+				flag = true;
+				list_info.size--;
+			}
+			else
+			{
+				prev->next = ptr->next;
+				temp = ptr;
 				ptr = ptr->next;
-				prev = prev->next;
+				free(temp);
+				flag = true;
+				list_info.size--;
 			}
 		}
+		if(ptr != list_info.head)
+			prev = prev->next;
+		ptr = ptr->next;
 	}
+
+	return flag;
 }

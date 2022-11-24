@@ -1,21 +1,35 @@
 #include "minjun_header.h"
 #include "main.h"
-
 /*
  * Name        : AddNode
- * Date        : 2022-09-06
- * argument    : int array
+ * Date        : 2022-11-24
+ * author      : MinJun Choi
+ * argument    : none
  * return      : void
- * description : this function can insert node to the front or at the end.
+ * description : this function can insert node ascent by tag.
 */
 void AddNode() {
-	int sel;
 	char fee;
-	Node* temp = malloc(sizeof(Node));
+	Node* temp = malloc(sizeof(Node)), *cur, *prev = list_info.head;
 	temp->next = NULL;
 	printf("tag : ");
 	scanf("%d", &temp->data.tag);
-	//tag verify
+	//Tag verify first.
+	for(cur = list_info.head; cur != NULL; cur = cur->next)
+	{
+		if(cur->data.tag > temp->data.tag)
+		{
+			break;
+		}
+		else if(cur->data.tag == temp->data.tag)
+		{
+			printf("Tag should be unique.\n");
+			return;
+		}
+		if(cur != list_info.head)
+			prev = prev->next;
+	}
+	list_info.size++;
 	printf("year : ");
 	scanf("%d", &temp->data.year);
 	printf("month : ");
@@ -23,7 +37,7 @@ void AddNode() {
 	printf("date : ");
 	scanf("%d", &temp->data.date);
 
-	printf("fee_paid(y/n) : ");
+	printf("fee_paid (y/n) : ");
 	scanf(" %c", &fee);
 	temp->data.fee_paid = fee == 'y' ? true : false;
 
@@ -36,27 +50,19 @@ void AddNode() {
 	printf("job : ");
 	get_string(temp->data.job);
 
-	printf("Enter 1 to add to the front, Enter any key to add at the end");
-	scanf("%d", &sel);
-
-	if (sel)
+	if(prev == list_info.head)
 	{
 		temp->next = list_info.head;
 		list_info.head = temp;
 	}
 	else
 	{
-		Node* cur = list_info.head;
-
-		while (cur->next != NULL)
-		{
-			cur = cur->next;
-		}
-		cur->next = temp;
+		prev->next = temp;
+		temp->next = cur;
 	}
 }
-
-void insertNode(int tag) {
+/*merged with AddNode.*/
+/*void insertNode(int tag) {
 
 	Node* ptr, * old_ptr = NULL;
 	int newtag = tag, fail = -1;
@@ -93,7 +99,4 @@ void insertNode(int tag) {
 			break;
 		}
 	}
-}
-
-
-bool verify_same(int tag);
+}*/
