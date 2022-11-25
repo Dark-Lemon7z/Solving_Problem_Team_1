@@ -27,12 +27,12 @@ typedef struct node_array
 	struct node_array * next;
 }Node_arr;
 
-struct nodelist
+typedef struct nodelist
 {
 	int size;
 	Node *head;
-}list_info;
-
+}INFO_NODE;
+extern INFO_NODE list_info;
 #include "hyukjin_header.h"//본인 헤더 파일은 추가
 #include "minseok_header.h"
 #include "gyeongwon_header.h"
