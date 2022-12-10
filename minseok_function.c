@@ -169,6 +169,7 @@ void output_menu()
 {
 	clear_(0);
 	Node_arr *rst = NULL, *cur;
+	Node ** ByAge;
 	int sel, tag_input;
 	char ch_input[60];
 	while(1)
@@ -178,6 +179,7 @@ void output_menu()
 		puts("2. Name (print all of same name)");
 		puts("3. Organization (print all of same org.)");
 		puts("4. Make output");
+		puts("5. Just Print all of data by age");
 		puts("**If nodes are duplicated, print only one time**");
 		printf("input >> ");
 		scanf("%d", &sel);
@@ -199,8 +201,12 @@ void output_menu()
 				rst = search_org(ch_input);
 				break;
 			case 4:
-				write_to_file();
+				write_to_file(NULL);
 				puts("Fine.");
+				return;
+			case 5:
+				write_to_file(ByAge = sortByAge());
+				free(ByAge);
 				return;
 			default:
 				printf("Input Error\n");
@@ -220,13 +226,13 @@ void output_menu()
 }
 /*
  * Name        : write_to_file
- * Date        : 2022-11-24
+ * Date        : 2022-12-10
  * author      : MinSeok Choi
- * argument    : none
+ * argument    : Node **
  * return      : void
  * description : make output file
 */
-void write_to_file()
+void write_to_file(Node ** sorteddata)
 {
 	int idx = 0;
 	char filename[54];
@@ -236,16 +242,34 @@ void write_to_file()
 	get_string(filename);
 	strcat(filename, ".txt");
 	output = fopen(filename, "w");
-	for(cur = list_info.head; cur != NULL; cur = cur ->next)
+	if(sorteddata == NULL)
 	{
-		if(!cur->checked)
-			continue;
-		fprintf(output, "------------- #%d -------------\n", idx++);
-		fprintf(output, "tag \t: %d\ndate\t: %d-%d-%d\nfee \t: %s\nname\t: %s\nage \t: %d\norg \t: %s\njob \t: %s\n", cur->data.tag,
-			   cur->data.year, cur->data.month,
-			   cur->data.date, cur->data.fee_paid ? "true" : "false",
-			   cur->data.name, cur->data.age, cur->data.org, cur->data.job);
-		cur->checked = false;
+		for (cur = list_info.head; cur != NULL; cur = cur->next) // designed by gyeongwon
+		{
+			if (!cur->checked)
+				continue;
+			fprintf(output, "------------- #%d -------------\n", idx++);
+			fprintf(output,
+					"tag \t: %d\ndate\t: %d-%d-%d\nfee \t: %s\nname\t: %s\nage \t: %d\norg \t: %s\njob \t: %s\n",
+					cur->data.tag,
+					cur->data.year, cur->data.month,
+					cur->data.date, cur->data.fee_paid ? "true" : "false",
+					cur->data.name, cur->data.age, cur->data.org, cur->data.job);
+			cur->checked = false;
+		}
+	}
+	else
+	{
+		for (idx = 0; idx < list_info.size; idx++)
+		{
+			fprintf(output, "------------- #%d -------------\n", idx);
+			fprintf(output,
+					"tag \t: %d\ndate\t: %d-%d-%d\nfee \t: %s\nname\t: %s\nage \t: %d\norg \t: %s\njob \t: %s\n",
+					sorteddata[idx]->data.tag,
+					sorteddata[idx]->data.year, sorteddata[idx]->data.month,
+					sorteddata[idx]->data.date, sorteddata[idx]->data.fee_paid ? "true" : "false",
+					sorteddata[idx]->data.name, sorteddata[idx]->data.age, sorteddata[idx]->data.org, sorteddata[idx]->data.job);
+		}
 	}
 	fclose(output);
 }
@@ -411,4 +435,73 @@ void get_string(char *str)
 		}
 	}
 	str[idx] = '\0';
+}
+/*
+ * Name        : sortByAge
+ * Date        : 2022-12-10
+ * author      : MinSeok Choi
+ * argument    : none
+ * return      : Node **
+ * description : sort by age and return array
+*/
+Node **sortByAge()
+{
+	int idx = 0;
+	Node **sortbyage = malloc(sizeof(Node*) * list_info.size), **rst = malloc(sizeof(Node*) * list_info.size);
+	//Put nodes addr in array
+	for(Node* cur = list_info.head; cur != NULL; cur = cur->next, idx++)
+	{
+		sortbyage[idx] = cur;
+	}
+	selection_sort(sortbyage);
+	return sortbyage;
+}
+/*
+ * Name        : seletion_sort
+ * Date        : 2022-12-10
+ * author      : MinSeok Choi
+ * argument    : Node **
+ * return      : void
+ * description : Selection sort
+*/
+void selection_sort(Node** tar_arr)
+{
+	Node * temp;
+	int cur, size = list_info.size, min, idx;
+	for(cur = 0; cur < size; cur++)
+	{
+		min = tar_arr[cur]->data.age;
+		idx = cur;
+		for(int i = cur + 1; i < size; i++)
+		{
+			if(tar_arr[i]->data.age < min)
+			{
+				min = tar_arr[i]->data.age;
+				idx = i;
+			}
+		}
+		if(idx == cur)
+			continue;
+		temp = tar_arr[idx];
+		tar_arr[idx] = tar_arr[cur];
+		tar_arr[cur] = temp;
+	}
+}
+/*
+ * Name        : clear_node
+ * Date        : 2022-12-10
+ * author      : MinSeok Choi
+ * argument    : chat *str
+ * return      : void
+ * description : get string from user's input
+*/
+void clear_node()
+{
+	Node * prev = list_info.head;
+	for(Node * cur = prev->next; cur != NULL; cur = cur->next)
+	{
+		free(prev);
+		prev = cur;
+	}
+	free(prev);
 }

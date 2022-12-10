@@ -11,8 +11,12 @@ void delete_node_arr_list(Node_arr *head);
 void search_menu();
 void delete_menu();
 void output_menu();
-void write_to_file();
+void write_to_file(Node **);
 bool main_menu();
 void clear_(bool flag);
 void get_string(char *str);
+Node ** sortByAge();
+void selection_sort(Node**);
+void clear_node();
 #endif //TERM_MINSEOK_HEADER_H
+

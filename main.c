@@ -13,4 +13,5 @@ int main()
 	{
 		clear_(1);
 	}
+	clear_node();
 }
